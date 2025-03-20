@@ -96,9 +96,8 @@ BERIKUT OUTPUT DARI 4 POIN DI ATAS
 #Soal no 2
 1. Di soal no 2 kita diminta untuk membuat 2 fungsional shell login dan register menggunakan nano.
 Berikut tampilan nano login.sh
-   ```sh
+```sh
    #!/bin/bash
-
 DB_FILE="./data/player.csv"
 SALT="some_random_static_salt"  # Static salt untuk hashing password
 
