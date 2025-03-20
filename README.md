@@ -405,7 +405,7 @@ Program akan mengecek opsi yang diberikan oleh user. Setelah itu, program akan m
 1. Pada soal ini kita diputuskan untuk membuat shell untuk membaca sebuah data dari banyak nya pokemon yang ada di data tersebut
 2. Dengan menggunakan shell, di sini kita akan membaca file .csv untuk summary data, sorting pokemon, mencari pokemon tertentu, mencari dengan filter name type, error handling, dan --help
 
-1. Pada display info berikut kita akan membuat display info summary terkait dengan beberapa data dari file .csv menggunakan shell untuk mencari summary dengan data terbesar $HIGHEST_USAGE
+3. Pada display info berikut kita akan membuat display info summary terkait dengan beberapa data dari file .csv menggunakan shell untuk mencari summary dengan data terbesar $HIGHEST_USAGE
 ```sh
 display_info() {
     echo "🔥 Summary of $FILE 🔥"
@@ -424,7 +424,7 @@ display_info() {
 ```
 ![Image](https://github.com/user-attachments/assets/0189cd20-1fd2-4d98-a1c4-6c0637171dcb)
 
-2. Pada poin sorting berikut kita akan membuat sorting data terkait dengan file .csv, di poin ini kita akan mencari usage, raw, name, hp, atk, def, spatk, spdef, speed. Jika terdapat error maka akan print out invalid sort column jika ./pokemon_analysis.sh pokemon_usage.csv --sort <kosong> 
+4. Pada poin sorting berikut kita akan membuat sorting data terkait dengan file .csv, di poin ini kita akan mencari usage, raw, name, hp, atk, def, spatk, spdef, speed. Jika terdapat error maka akan print out invalid sort column jika ./pokemon_analysis.sh pokemon_usage.csv --sort <kosong> 
 ```sh
 sort_pokemon() {
     COLUMN=$3
@@ -448,7 +448,7 @@ sort_pokemon() {
 ```
 ![Image](https://github.com/user-attachments/assets/c9aae3ab-4075-423d-9720-1ced57c1215f)
 
-3. Pada poin ini membuat search terkait dengan $NAME dari pokemon yang akan kita cari dari file .csv tersebut
+5. Pada poin ini membuat search terkait dengan $NAME dari pokemon yang akan kita cari dari file .csv tersebut
 ```sh
 search_pokemon() {
     NAME=$3
@@ -463,7 +463,7 @@ search_pokemon() {
 ```
 ![Image](https://github.com/user-attachments/assets/670bddf2-bb58-4cb1-a931-6ee4643e2cac)
 
-4. Pada poin ini kita akan menfilter pokemon sesuai dengan elemen masing masing
+6. Pada poin ini kita akan menfilter pokemon sesuai dengan elemen masing masing
 ```sh
 filter_pokemon() {
     TYPE=$3
@@ -478,7 +478,7 @@ filter_pokemon() {
 ```
 ![Image](https://github.com/user-attachments/assets/7db33078-be71-45c6-bedc-df14aa8d0efa)
 
-5. Pada poin ini kita akan membuat error handling jika command yang diberikan tidak sesuai dengan command execute nano
+7. Pada poin ini kita akan membuat error handling jika command yang diberikan tidak sesuai dengan command execute nano
 ```sh
 case $COMMAND in
     --info) display_info;;
@@ -505,7 +505,7 @@ esac
 ```
 ![Image](https://github.com/user-attachments/assets/b60b4683-d66a-45ae-8a5b-a424d5d16df5)
 
-6. Pada poin terakhir, script berikut akan membuat --help jika kita mengetahui command apa saja yang berada pada file nano tersebut untuk diexecute
+8. Pada poin terakhir, script berikut akan membuat --help jika kita mengetahui command apa saja yang berada pada file nano tersebut untuk diexecute
 ```sh
 if [[ $# -eq 1 && ($1 == "-h" || $1 == "--help") ]]; then
     cat << "EOF"
