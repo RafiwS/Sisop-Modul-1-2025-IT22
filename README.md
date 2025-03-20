@@ -248,10 +248,11 @@ hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
 Revisi untuk manager.sh adalah seharusnya hanya 3 menu akan tetapi aku memasukkan satu menu sehingga sudah aku ubah untuk hanya 3 menu.
 
 Output login.sh dan register.sh
+![Image](https://github.com/user-attachments/assets/3aaa74cd-d638-417d-8b86-b216085676a0)
 
 
 Output manager.sh
-
+![Image](https://github.com/user-attachments/assets/4bf5a750-245d-4101-ac9a-d8d4d7d3a959)
 
 #Soal no 3
 1. Di soal nomor 3 ini, kita diminta untuk membuat sebuah script atas 5 tema dari 10 lagu dalam album. 5 tema tersebut antara lain : Speak to Me, On the Run, Time, Money, dan Brain Damage.
@@ -268,6 +269,8 @@ speak_to_me() {
 }
 ```
 Ketika script diatas dipanggil, setelah memanggil API dari link tersebut dengan curl, data json akan diekstrak menggunakan jq. script "\033[1;32m$affirmation\033[0m" berfungsi untuk menghasilkan teks berwarna hijau. Sleep 1 digunakan agar loop dilakukan setiap 1 detik.
+![Image](https://github.com/user-attachments/assets/c64a2557-e1e4-4163-bd22-1ce56679b5e7)
+
 
 3. Untuk On the Run, kita diminta untuk membuat progress bar dengan waktu yang tak tentu atau acak (random).
 ```sh
@@ -293,6 +296,7 @@ on_the_run() {
 }
 ```
 Dalam script ini, Progress bar akan ditentukan pada line "TERM_WIDTH=$(tput cols)" dan "BAR_LENGTH=$((TERM_WIDTH - 12))". Selanjutnya, " PROGRESS=$((i * BAR_LENGTH / 100))" berfungsi untuk menghitung panjang progress bar berdasarkan persentase, lalu dilanjutkan dengan "BAR=$(printf "%-${PROGRESS}s" "#" | tr ' ' '#')" untuk membuat string dengan jumlah # sesuai panjang "PROGRESS". " sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')" digunakan untuk menghitung waktu tidur acak antara 0.1 hingga 1 detik untuk membuat efek kecepatan progress bar yang tidak seragam.
+![Image](https://github.com/user-attachments/assets/1f8cdcc9-becc-48c6-8d0e-bb403b5d8ef2)
 
 4. Pada Time, kita diminta untuk menampilkan live clock yang menunjukkan tanggal, jam, menit, dan detik.
 ```sh
@@ -307,6 +311,7 @@ time_func() {
 }
 ```
 Dengan script tersebut, tanggal akan ditampilkan dengan urutan "Hari, Tanggal Bulan Tahun" Kemudian dilanjutkan dengan live clock dibawahnya. Untuk hari, tanggal, bulan, dan tahun menggunakan ANSI berwarna biru, sedangkan untuk live clock menggunakan warna hijau.
+![Image](https://github.com/user-attachments/assets/05da5197-de88-4754-ad5b-3ef0e0e41758)
 
 5. Pada Money, kita diminta untuk menampilkan simbol mata uang seperti $ € £ ¥ ¢ ₹ ₩ ₿ ₣ secara acak.
 ```sh
@@ -342,6 +347,7 @@ money() {
     TERM_HEIGHT=$(tput lines)"
   script tersebut digunakan untuk menentukan simbol mata uang dan ukuran terminal (lebar & tinggi).
 - Lalu dilakukan loop tak terbatas untuk menampilkan mata uang secara acak dalam posisi acak juga.
+![Image](https://github.com/user-attachments/assets/1a8ec7b6-1048-4af0-b7a4-3379811e5181)
 
 6. Pada Brain Damage, kita diminta untuk menampilkan proses yang sedang berjalan, mirip seperti task manager.
 ```sh
@@ -356,6 +362,8 @@ if [[ $# -eq 0 ]]; then
 fi
 ```
 Kode ini memastikan bahwa pengguna memasukkan minimal satu argumen saat menjalankan script. Jika tidak, script akan menampilkan cara penggunaan yang benar lalu keluar dengan status error.
+![Image](https://github.com/user-attachments/assets/d71eb9d3-3b63-4e4c-a189-f5c900f643bb)
+
 
 7. Pada
 ```sh
