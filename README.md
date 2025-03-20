@@ -89,4 +89,4 @@ END {
 ' reading_data.csv
 ```
 Pada shell di atas ini, poin ini mencari genre paling populer di Asia setelah 2023, genre populer ini dicari berdasarkan file reading_data.csv. Menggunakan condition IF
-![Alt text](https://github.com/RafiwS/Sisop-Modul-1-2025-IT22/issues/2#issue-2935568004)
+![Image](https://github.com/user-attachments/assets/d3569dae-56f8-495e-821b-3d62b26aedea)
