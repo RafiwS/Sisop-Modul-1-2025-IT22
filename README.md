@@ -93,6 +93,166 @@ Pada shell di atas ini, poin ini mencari genre paling populer di Asia setelah 20
 BERIKUT OUTPUT DARI 4 POIN DI ATAS
 ![Image](https://github.com/user-attachments/assets/d3569dae-56f8-495e-821b-3d62b26aedea)
 
+#Soal no 2
+1. Di soal no 2 kita diminta untuk membuat 2 fungsional shell login dan register menggunakan nano. Berikut tampilan nano login.sh
+   ```sh
+   #!/bin/bash
+
+DB_FILE="./data/player.csv"
+SALT="some_random_static_salt"  # Static salt untuk hashing password
+
+if [ ! -f "$DB_FILE" ]; then
+    echo "Database tidak ditemukan. Pastikan file /data/player.csv ada."
+    exit 1
+fi
+
+validate_email() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        echo "Email tidak valid. Pastikan formatnya benar (misalnya user@example.com)."
+        return 1
+    fi
+    return 0
+}
+
+read -p "Masukkan email: " email
+
+validate_email "$email" || exit 1
+
+read -sp "Masukkan password: " password
+echo
+
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+
+Tampilan nano register.sh
+```sh
+#!/bin/bash
+
+DB_FILE="./data/player.csv"
+SALT="some_random_static_salt"  # Static salt untuk hashing password
+
+if [ ! -f "$DB_FILE" ]; then
+    echo "Database tidak ditemukan. Pastikan file /data/player.csv ada."
+    exit 1
+fi
+
+validate_email() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        echo "Email tidak valid. Pastikan formatnya benar (misalnya user@example.com)."
+        return 1
+    fi
+    return 0
+}
+
+read -p "Masukkan email: " email
+
+validate_email "$email" || exit 1
+
+read -sp "Masukkan password: " password
+echo
+
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+
+Lalu untuk pemantauan sumber daya kita membuat core_monitor.sh dan frag_monitor.sh
+Tampilan code core_monitor.sh 
+```sh
+#!/bin/bash
+
+DB_FILE="./data/player.csv"
+SALT="some_random_static_salt"  # Static salt untuk hashing password
+
+if [ ! -f "$DB_FILE" ]; then
+    echo "Database tidak ditemukan. Pastikan file /data/player.csv ada."
+    exit 1
+fi
+
+validate_email() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        echo "Email tidak valid. Pastikan formatnya benar (misalnya user@example.com)."
+        return 1
+    fi
+    return 0
+}
+
+read -p "Masukkan email: " email
+
+validate_email "$email" || exit 1
+
+read -sp "Masukkan password: " password
+echo
+
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+
+Tampilan code frag_monitor.sh
+```sh
+#!/bin/bash
+
+DB_FILE="./data/player.csv"
+SALT="some_random_static_salt"  # Static salt untuk hashing password
+
+if [ ! -f "$DB_FILE" ]; then
+    echo "Database tidak ditemukan. Pastikan file /data/player.csv ada."
+    exit 1
+fi
+
+validate_email() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        echo "Email tidak valid. Pastikan formatnya benar (misalnya user@example.com)."
+        return 1
+    fi
+    return 0
+}
+
+read -p "Masukkan email: " email
+
+validate_email "$email" || exit 1
+
+read -sp "Masukkan password: " password
+echo
+
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+
+Untuk menambahkan dan memonitoring CPU menggunakan crontab manager yaitu manager.sh
+Tampilan code
+```sh
+#!/bin/bash
+
+DB_FILE="./data/player.csv"
+SALT="some_random_static_salt"  # Static salt untuk hashing password
+
+if [ ! -f "$DB_FILE" ]; then
+    echo "Database tidak ditemukan. Pastikan file /data/player.csv ada."
+    exit 1
+fi
+
+validate_email() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        echo "Email tidak valid. Pastikan formatnya benar (misalnya user@example.com)."
+        return 1
+    fi
+    return 0
+}
+
+read -p "Masukkan email: " email
+
+validate_email "$email" || exit 1
+
+read -sp "Masukkan password: " password
+echo
+
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+Revisi untuk manager.sh adalah seharusnya hanya 3 menu akan tetapi aku memasukkan satu menu sehingga sudah aku ubah untuk hanya 3 menu.
+
+Output login.sh dan register.sh
+
+
+Output manager.sh
+
+
 #Soal no 3
 1. Di soal nomor 3 ini, kita diminta untuk membuat sebuah script atas 5 tema dari 10 lagu dalam album. 5 tema tersebut antara lain : Speak to Me, On the Run, Time, Money, dan Brain Damage.
 
