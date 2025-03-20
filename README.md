@@ -59,7 +59,7 @@ END {
 }
 ' reading_data.csv
 ```
-
+Pada shell di atas ini, poin ini mencari pembaca dengan rating tertinggi, untuk rating ini dilihat dari file reading_data.csv. Menggunakan condition IF
 ```
 awk -F, '
 BEGIN { }
@@ -86,4 +86,4 @@ END {
 }
 ' reading_data.csv
 ```
-
+Pada shell di atas ini, poin ini mencari genre paling populer di Asia setelah 2023, genre populer ini dicari berdasarkan file reading_data.csv. Menggunakan condition IF
