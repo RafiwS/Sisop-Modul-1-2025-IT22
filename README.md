@@ -6,7 +6,7 @@ Zahra Hafizhah 5027241121
 ===========================================================
 ```
 #Soal no 1
-```
+```sh
 awk -F, '
 BEGIN { count=0 } 
 {
@@ -22,7 +22,7 @@ END {
 ' reading_data.csv
 ```
 Pada shell di atas ini, poin tersebut mencari berapa banyak buku yang dibaca oleh Chris Hemsworth dengan membaca reading_data.csv. Menggunakan condition IF
-```
+```sh
 awk -F, '
 BEGIN { sum=0; count=0 } 
 {
@@ -40,7 +40,7 @@ END {
 ' reading_data.csv
 ```
 Pada shell di atas ini, poin ini mencari berapa durasi lama melihat tablet yang terdapat pada file reading_data.csv. Menggunakan condition IF
-```
+```sh
 awk -F, '
 BEGIN { max=0 }
 NR == 1 { next } 
@@ -60,7 +60,7 @@ END {
 ' reading_data.csv
 ```
 Pada shell di atas ini, poin ini mencari pembaca dengan rating tertinggi, untuk rating ini dilihat dari file reading_data.csv. Menggunakan condition IF
-```
+```sh
 awk -F, '
 BEGIN { }
 NR==1 { next }
