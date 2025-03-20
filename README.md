@@ -94,7 +94,8 @@ BERIKUT OUTPUT DARI 4 POIN DI ATAS
 ![Image](https://github.com/user-attachments/assets/d3569dae-56f8-495e-821b-3d62b26aedea)
 
 #Soal no 2
-1. Di soal no 2 kita diminta untuk membuat 2 fungsional shell login dan register menggunakan nano. Berikut tampilan nano login.sh
+1. Di soal no 2 kita diminta untuk membuat 2 fungsional shell login dan register menggunakan nano.
+Berikut tampilan nano login.sh
    ```sh
    #!/bin/bash
 
