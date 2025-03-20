@@ -92,3 +92,143 @@ Pada shell di atas ini, poin ini mencari genre paling populer di Asia setelah 20
 
 BERIKUT OUTPUT DARI 4 POIN DI ATAS
 ![Image](https://github.com/user-attachments/assets/d3569dae-56f8-495e-821b-3d62b26aedea)
+
+#Soal no 3
+1. Di soal nomor 3 ini, kita diminta untuk membuat sebuah script atas 5 tema dari 10 lagu dalam album. 5 tema tersebut antara lain : Speak to Me, On the Run, Time, Money, dan Brain Damage.
+
+2. Untuk Speak to Me, kita akan memanggil API dari https://github.com/annthurium/affirmations untuk menampilkan word of affirmation setiap detik.
+```sh
+speak_to_me() {
+    echo "Starting Speak to Me..."
+    while true; do
+        affirmation=$(curl -s https://www.affirmations.dev | jq -r '.affirmation')
+        echo -e "\033[1;32m$affirmation\033[0m"
+        sleep 1
+    done
+}
+```
+Ketika script diatas dipanggil, setelah memanggil API dari link tersebut dengan curl, data json akan diekstrak menggunakan jq. script "\033[1;32m$affirmation\033[0m" berfungsi untuk menghasilkan teks berwarna hijau. Sleep 1 digunakan agar loop dilakukan setiap 1 detik.
+
+3. Untuk On the Run, kita diminta untuk membuat progress bar dengan waktu yang tak tentu atau acak (random).
+```sh
+on_the_run() {
+    echo "Starting On the Run..."
+    sleep 1
+    echo "Ready, set, go!"
+    sleep 1
+
+    TERM_WIDTH=$(tput cols)
+    BAR_LENGTH=$((TERM_WIDTH - 12))
+
+    echo -ne "["
+    for ((i=0; i<=100; i++)); do
+        PROGRESS=$((i * BAR_LENGTH / 100))
+        BAR=$(printf "%-${PROGRESS}s" "#" | tr ' ' '#')
+
+        printf "\r[%-*s] %3d%%" "$BAR_LENGTH" "$BAR" "$i"
+
+        sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+    done
+    echo -e "\nFinished!"
+}
+```
+Dalam script ini, Progress bar akan ditentukan pada line "TERM_WIDTH=$(tput cols)" dan "BAR_LENGTH=$((TERM_WIDTH - 12))". Selanjutnya, " PROGRESS=$((i * BAR_LENGTH / 100))" berfungsi untuk menghitung panjang progress bar berdasarkan persentase, lalu dilanjutkan dengan "BAR=$(printf "%-${PROGRESS}s" "#" | tr ' ' '#')" untuk membuat string dengan jumlah # sesuai panjang "PROGRESS". " sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')" digunakan untuk menghitung waktu tidur acak antara 0.1 hingga 1 detik untuk membuat efek kecepatan progress bar yang tidak seragam.
+
+4. Pada Time, kita diminta untuk menampilkan live clock yang menunjukkan tanggal, jam, menit, dan detik.
+```sh
+time_func() {
+    echo "Starting Time..."
+    while true; do
+        clear
+        echo -e "\033[1;34m$(date '+%A, %d %B %Y')\033[0m"
+        echo -e "\033[1;32m$(date '+%H:%M:%S')\033[0m"
+        sleep 1
+    done
+}
+```
+Dengan script tersebut, tanggal akan ditampilkan dengan urutan "Hari, Tanggal Bulan Tahun" Kemudian dilanjutkan dengan live clock dibawahnya. Untuk hari, tanggal, bulan, dan tahun menggunakan ANSI berwarna biru, sedangkan untuk live clock menggunakan warna hijau.
+
+5. Pada Money, kita diminta untuk menampilkan simbol mata uang seperti $ € £ ¥ ¢ ₹ ₩ ₿ ₣ secara acak.
+```sh
+money() {
+    echo "Starting Money..."
+    sleep 1
+    clear
+
+    CURRENCY=("€" "£" "$" "¥" "₩" "₹" "₽" "₺" "₦" "฿")
+    TERM_WIDTH=$(tput cols)
+    TERM_HEIGHT=$(tput lines)
+
+    while true; do
+        clear
+        for ((i=0; i<TERM_HEIGHT; i++)); do
+            LINE=$(printf "%*s" "$TERM_WIDTH" "")
+
+            for ((j=0; j<TERM_WIDTH; j++)); do
+                if (( RANDOM % 30 == 0 )); then
+                    SYMBOL="${CURRENCY[RANDOM % ${#CURRENCY[@]}]}"
+                    LINE=$(echo "$LINE" | sed "s/./$SYMBOL/$((j+1))")
+                fi
+            done
+
+            echo "$LINE"
+        done
+        sleep 0.1
+    done
+}
+```
+- "CURRENCY=("€" "£" "$" "¥" "₩" "₹" "₽" "₺" "₦" "฿")
+    TERM_WIDTH=$(tput cols)
+    TERM_HEIGHT=$(tput lines)"
+  script tersebut digunakan untuk menentukan simbol mata uang dan ukuran terminal (lebar & tinggi).
+- Lalu dilakukan loop tak terbatas untuk menampilkan mata uang secara acak dalam posisi acak juga.
+
+6. Pada Brain Damage, kita diminta untuk menampilkan proses yang sedang berjalan, mirip seperti task manager.
+```sh
+brain_damage() {
+    echo "Starting Brain Damage..."
+    sleep 1
+    top
+}
+if [[ $# -eq 0 ]]; then
+    echo "Usage: ./dsotm.sh --play=\"<Track>\""
+    exit 1
+fi
+```
+Kode ini memastikan bahwa pengguna memasukkan minimal satu argumen saat menjalankan script. Jika tidak, script akan menampilkan cara penggunaan yang benar lalu keluar dengan status error.
+
+7. Pada
+```sh
+case "$1" in
+    --play=*)
+        TRACK="${1#*=}"
+        ;;
+    *)
+        echo "Unknown option: $1"
+        exit 1
+        ;;
+esac
+
+case $TRACK in
+    "Speak to Me")
+        speak_to_me
+        ;;
+    "On the Run")
+        on_the_run
+        ;;
+    "Time")
+        time_func
+        ;;
+    "Money")
+        money
+        ;;
+    "Brain Damage")
+        brain_damage
+        ;;
+    *)
+        echo "Track '$TRACK' not implemented yet."
+        exit 1
+        ;;
+esac
+```
+Program akan mengecek opsi yang diberikan oleh user. Setelah itu, program akan mengeksekusi fungsi sesuai lagu yang dipilih. Jika lagu tidak dikenali atau input yang diberikan tidak sesuai, script akan menampilkan pesan error.
