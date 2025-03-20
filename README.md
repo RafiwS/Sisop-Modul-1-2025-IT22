@@ -6,6 +6,8 @@ Zahra Hafizhah 5027241121
 ===========================================================
 ```
 #Soal no 1
+1. Dalam nomer 1 ini kita akan mencari 4 hal, yaitu total chris hemsworth membaca buku, berapa durasi tablet, rating tertinggi, dan mencari genre populer
+2. Menggunakan shell dan juga condition if pada awk yang sudah ditentukan
 ```sh
 awk -F, '
 BEGIN { count=0 } 
@@ -87,3 +89,4 @@ END {
 ' reading_data.csv
 ```
 Pada shell di atas ini, poin ini mencari genre paling populer di Asia setelah 2023, genre populer ini dicari berdasarkan file reading_data.csv. Menggunakan condition IF
+
