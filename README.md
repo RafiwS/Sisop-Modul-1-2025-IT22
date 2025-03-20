@@ -400,3 +400,140 @@ case $TRACK in
 esac
 ```
 Program akan mengecek opsi yang diberikan oleh user. Setelah itu, program akan mengeksekusi fungsi sesuai lagu yang dipilih. Jika lagu tidak dikenali atau input yang diberikan tidak sesuai, script akan menampilkan pesan error.
+
+#Soal no 4
+1. Pada soal ini kita diputuskan untuk membuat shell untuk membaca sebuah data dari banyak nya pokemon yang ada di data tersebut
+2. Dengan menggunakan shell, di sini kita akan membaca file .csv untuk summary data, sorting pokemon, mencari pokemon tertentu, mencari dengan filter name type, error handling, dan --help
+
+1. Pada display info berikut kita akan membuat display info summary terkait dengan beberapa data dari file .csv menggunakan shell untuk mencari summary dengan data terbesar $HIGHEST_USAGE
+```sh
+display_info() {
+    echo "🔥 Summary of $FILE 🔥"
+    HIGHEST_USAGE=$(tail -n +2 "$FILE" | sort -t, -k2 -nr | head -1)
+    POKEMON_USAGE=$(echo "$HIGHEST_USAGE" | cut -d, -f1)
+    USAGE_PERCENT=$(echo "$HIGHEST_USAGE" | cut -d, -f2)
+    HIGHEST_RAW_USAGE=$(tail -n +2 "$FILE" | sort -t, -k3 -nr | head -1)
+    POKEMON_RAW=$(echo "$HIGHEST_RAW_USAGE" | cut -d, -f1)
+    RAW_USAGE=$(echo "$HIGHEST_RAW_USAGE" | cut -d, -f3)
+    echo "-------------------------------------------"
+    echo "🚀 The most terrifying Pokémon in Gen 9 OU!"
+    echo "👑 Highest Adjusted Usage: $POKEMON_USAGE with $USAGE_PERCENT%"
+    echo "📊 Highest Raw Usage: $POKEMON_RAW with $RAW_USAGE uses"
+    echo "-------------------------------------------"
+}
+```
+![Image](https://github.com/user-attachments/assets/0189cd20-1fd2-4d98-a1c4-6c0637171dcb)
+
+2. Pada poin sorting berikut kita akan membuat sorting data terkait dengan file .csv, di poin ini kita akan mencari usage, raw, name, hp, atk, def, spatk, spdef, speed. Jika terdapat error maka akan print out invalid sort column jika ./pokemon_analysis.sh pokemon_usage.csv --sort <kosong> 
+```sh
+sort_pokemon() {
+    COLUMN=$3
+    HEADER=$(head -1 "$FILE")
+    SORTED_DATA=$(tail -n +2 "$FILE" | sort -t, -k1,1 -k2,2nr)
+    case $COLUMN in
+        usage) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k2 -nr);;
+        raw) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k3 -nr);;
+        name) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k1);;
+        hp) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k6 -nr);;
+        atk) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k7 -nr);;
+        def) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k8 -nr);;
+        spatk) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k9 -nr);;
+        spdef) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k10 -nr);;
+        speed) SORTED_DATA=$(echo "$SORTED_DATA" | sort -t, -k11 -nr);;
+        *) echo "Error: Invalid sort column '$COLUMN'"; exit 1;;
+    esac
+    echo "$HEADER"
+    echo "$SORTED_DATA"
+}
+```
+![Image](https://github.com/user-attachments/assets/c9aae3ab-4075-423d-9720-1ced57c1215f)
+
+3. Pada poin ini membuat search terkait dengan $NAME dari pokemon yang akan kita cari dari file .csv tersebut
+```sh
+search_pokemon() {
+    NAME=$3
+    HEADER=$(head -1 "$FILE")
+    RESULT=$(awk -F, -v name="$NAME" 'NR==1 || tolower($1) ~ tolower(name)' "$FILE")
+    if [[ -z "$(echo "$RESULT" | tail -n +2)" ]]; then
+        echo "Error: No Pokémon named '$NAME' found."
+        exit 1
+    fi
+    echo "$RESULT"
+}
+```
+![Image](https://github.com/user-attachments/assets/670bddf2-bb58-4cb1-a931-6ee4643e2cac)
+
+4. Pada poin ini kita akan menfilter pokemon sesuai dengan elemen masing masing
+```sh
+filter_pokemon() {
+    TYPE=$3
+    HEADER=$(head -1 "$FILE")
+    RESULT=$(awk -F, -v type="$TYPE" 'NR==1 || tolower($4) == tolower(type) || tolower($5) == tolower(type)' "$FILE")
+    if [[ -z "$(echo "$RESULT" | tail -n +2)" ]]; then
+        echo "Error: No Pokémon of type '$TYPE' found."
+        exit 1
+    fi
+    echo "$RESULT"
+}
+```
+![Image](https://github.com/user-attachments/assets/7db33078-be71-45c6-bedc-df14aa8d0efa)
+
+5. Pada poin ini kita akan membuat error handling jika command yang diberikan tidak sesuai dengan command execute nano
+```sh
+case $COMMAND in
+    --info) display_info;;
+    --sort) 
+        if [[ $# -lt 3 ]]; then
+            echo "Error: No sort column provided"
+            exit 1
+        fi
+        sort_pokemon "$@";;
+    --grep) 
+        if [[ $# -lt 3 ]]; then
+            echo "Error: No Pokémon name provided"
+            exit 1
+        fi
+        search_pokemon "$@";;
+    --filter) 
+        if [[ $# -lt 3 ]]; then
+            echo "Error: No filter type provided"
+            exit 1
+        fi
+        filter_pokemon "$@";;
+    *) echo "Error: Unknown command '$COMMAND'"; exit 1;;
+esac
+```
+![Image](https://github.com/user-attachments/assets/b60b4683-d66a-45ae-8a5b-a424d5d16df5)
+
+6. Pada poin terakhir, script berikut akan membuat --help jika kita mengetahui command apa saja yang berada pada file nano tersebut untuk diexecute
+```sh
+if [[ $# -eq 1 && ($1 == "-h" || $1 == "--help") ]]; then
+    cat << "EOF"
+    ██████╗  ██████╗ ██╗  ██╗███████╗███╗   ███╗ ██████╗ ███╗   ██╗
+    ██╔══██╗██╔═══██╗██║ ██╔╝██╔════╝████╗ ████║██╔═══██╗████╗  ██║
+    ██████╔╝██║   ██║█████╔╝ █████╗  ██╔████╔██║██║   ██║██╔██╗ ██║
+    ██╔═══╝ ██║   ██║██╔═██╗ ██╔══╝  ██║╚██╔╝██║██║   ██║██║╚██╗██║
+    ██║     ╚██████╔╝██║  ██╗███████╗██║ ╚═╝ ██║╚██████╔╝██║ ╚████║
+    ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ 
+    Pokemon Usage Analysis Script - Gen 9 OverUsed
+    ---------------------------------------------------------
+    Usage:
+    ./pokemon_analysis.sh <file.csv> --info          Show data summary
+    ./pokemon_analysis.sh <file.csv> --sort <column> Sort Pokémon by column
+    ./pokemon_analysis.sh <file.csv> --grep <name>   Search Pokémon by name
+    ./pokemon_analysis.sh <file.csv> --filter <type> Filter Pokémon by type
+    ./pokemon_analysis.sh -h | --help                Show this help screen
+    ---------------------------------------------------------
+EOF
+    exit 0
+fi
+
+if [[ $# -lt 2 ]]; then
+    echo "Error: Not enough arguments. Use -h or --help for usage details."
+    exit 1
+fi
+
+FILE=$1
+COMMAND=$2
+```
+![Image](https://github.com/user-attachments/assets/76238f76-7809-46f6-9e21-3c9b84f26972)
